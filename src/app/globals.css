@@ -6,6 +6,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* Colores institucionales */
 :root {
   --pnp-green: #006400;   /* Verde oscuro sobrio */

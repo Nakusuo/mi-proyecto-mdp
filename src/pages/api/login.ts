@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../lib/db";
 import crypto from "crypto";
+import type { RowDataPacket } from "mysql2";
 
 type Usuario = {
   ID_usuario: number;
@@ -9,6 +10,10 @@ type Usuario = {
   nombre: string;
   apellido: string;
   ID_area?: number;
+};
+
+type Rol = {
+  nombre: string;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -21,28 +26,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ message: "Faltan datos" });
 
   try {
-    const [rows] = await db.query(
+    // Buscar usuario
+    const [rows] = await db.query<Usuario[] & RowDataPacket[]>(
       "SELECT * FROM usuarios WHERE username = ?",
       [username]
-    ) as unknown as [Usuario[], any];
+    );
 
     const user = rows.length > 0 ? rows[0] : null;
 
     if (!user) 
       return res.status(401).json({ message: "Usuario no encontrado" });
 
+    // Validar contraseña
     const hash = crypto.createHash("sha256").update(password).digest("hex");
 
     if (hash !== user.password_hash) 
       return res.status(401).json({ message: "Contraseña incorrecta" });
 
     // Obtener roles del usuario
-    const [rolesRows] = await db.query(
+    const [rolesRows] = await db.query<Rol[] & RowDataPacket[]>(
       "SELECT r.nombre FROM roles r INNER JOIN usuario_roles ur ON r.ID_rol = ur.ID_rol WHERE ur.ID_usuario = ?",
       [user.ID_usuario]
     );
 
-    const roles = Array.isArray(rolesRows) ? (rolesRows as any).map((r: any) => r.nombre) : [];
+    const roles = rolesRows.map(r => r.nombre);
 
     return res.status(200).json({ 
       message: "Login correcto", 
