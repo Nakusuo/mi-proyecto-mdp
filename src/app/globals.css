@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+/* src/app/globals.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Colores institucionales */
+:root {
+  --pnp-green: #006400;   /* Verde oscuro sobrio */
+  --pnp-yellow: #facc15;  /* Amarillo cálido */
+  --pnp-red: #b91c1c;     /* Rojo sobrio */
+}
+
+/* Fuente y fondo */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f3f4f6; /* Gris claro */
+  color: #111827; /* Gris oscuro para texto */
+}
+
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
