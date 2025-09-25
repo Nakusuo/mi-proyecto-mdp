@@ -22,9 +22,9 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        alert("Login exitoso"); // Aquí se direcciona a otra página
+        alert("Login exitoso"); // Aquí puedes redirigir
       } else {
-        setError(data.message);
+        setError(data.message || "Usuario o contraseña incorrectos");
       }
     } catch (err) {
       setError("Error en el servidor");
@@ -32,71 +32,90 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-200">
-      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md flex flex-col items-center">
+    <div className="flex h-full w-full">
 
-        {/* Logo */}
-        <div className="mb-6">
-          <Image src="/imagenes/logoPNP.png" alt="Logo PNP" width={120} height={120} />
+      {/* Panel Izquierdo - Logo y colores PNP */}
+      <div className="hidden md:flex w-1/2 h-full bg-gradient-to-br from-green-700 to-yellow-400 items-center justify-center">
+        <div className="text-center px-6">
+          <div className="relative w-64 h-64 mx-auto">
+            <Image
+              src="/imagenes/logoPNP.png"
+              alt="Logo PNP"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <h2 className="text-white text-4xl font-bold mt-6">
+            Bienvenido a Mesa de Partes Digital
+          </h2>
         </div>
-
-        {/* Título */}
-        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-          Mesa de Partes Digital
-        </h1>
-
-        {/* Formulario */}
-        <form onSubmit={handleLogin} className="w-full flex flex-col gap-5">
-
-          {/* Usuario */}
-          <div className="relative">
-            <span className="absolute left-4 top-3 text-gray-400 text-lg">👤</span>
-            <input
-              type="text"
-              name="username"
-              placeholder="Usuario"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition text-gray-900 placeholder-gray-400"
-            />
-          </div>
-
-          {/* Contraseña */}
-          <div className="relative">
-            <span className="absolute left-4 top-3 text-gray-400 text-lg">🔒</span>
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition text-gray-900 placeholder-gray-400"
-            />
-            <span
-              className="absolute right-4 top-3 cursor-pointer text-gray-400 text-lg select-none"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? "🙈" : "👁️"}
-            </span>
-          </div>
-
-          {/* Mensaje de error */}
-          {error && <p className="text-red-500 text-center">{error}</p>}
-
-          {/* Botón */}
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-4 rounded-xl font-semibold hover:bg-blue-700 active:scale-95 transition transform"
-          >
-            Ingresar
-          </button>
-
-          {/* Link */}
-          <a href="#" className="text-center text-sm text-blue-600 hover:underline mt-2">
-            ¿Olvidaste tu contraseña?
-          </a>
-        </form>
       </div>
+
+      {/* Panel Derecho - Formulario */}
+      <div className="flex flex-col w-full md:w-1/2 justify-center items-center bg-gray-100 p-4 md:p-10">
+        <div className="w-full max-w-md bg-white p-10 rounded-2xl shadow-2xl">
+
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center md:text-left">
+            Iniciar Sesión
+          </h1>
+
+          <form onSubmit={handleLogin} className="w-full flex flex-col gap-5">
+
+            {/* Usuario */}
+            <div className="relative">
+              <span className="absolute left-4 top-3 text-gray-400 text-lg pointer-events-none">👤</span>
+              <input
+                type="text"
+                name="username"
+                placeholder="Usuario"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-700 focus:ring-1 focus:ring-green-700 transition text-gray-900 placeholder-gray-400"
+              />
+            </div>
+
+            {/* Contraseña */}
+            <div className="relative">
+              <span className="absolute left-4 top-3 text-gray-400 text-lg pointer-events-none">🔒</span>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-700 focus:ring-1 focus:ring-green-700 transition text-gray-900 placeholder-gray-400"
+              />
+              <span
+                className="absolute right-4 top-3 cursor-pointer text-gray-400 text-lg select-none"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </span>
+            </div>
+
+            {/* Mensaje de error */}
+            {error && <p className="text-red-500 text-center">{error}</p>}
+
+            {/* Botón */}
+            <button
+              type="submit"
+              className="w-full bg-green-700 text-white py-4 rounded-xl font-semibold hover:bg-green-800 active:scale-95 transition transform"
+            >
+              Ingresar
+            </button>
+
+            {/* Link de recuperación */}
+            <a
+              href="#"
+              className="text-center text-sm text-green-700 hover:underline mt-2"
+            >
+              ¿Olvidaste tu contraseña?
+            </a>
+
+          </form>
+        </div>
+      </div>
+
     </div>
   );
 }

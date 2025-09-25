@@ -1,4 +1,3 @@
-// src/app/(auth)/layout.tsx
 import "../globals.css";
 
 export const metadata = {
@@ -6,14 +5,10 @@ export const metadata = {
   description: "Acceso al sistema",
 };
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body className="flex h-screen bg-gray-100 text-gray-900">
+      <body className="h-screen w-screen bg-gray-100 text-gray-900 overflow-hidden">
         {children}
       </body>
     </html>
