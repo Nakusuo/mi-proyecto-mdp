@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
 
 type User = {
   id: number;
@@ -17,7 +18,6 @@ type Role = {
 };
 
 function Modal({ children, onClose }: { children: React.ReactNode; onClose: () => void }) {
-  // Cerrar modal con ESC
   React.useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose();
@@ -73,12 +73,10 @@ export default function UsuariosPage() {
       try {
         const resUsers = await fetch('/api/users');
         const usersData = await resUsers.json();
-
         const normalizedUsers = usersData.map((user: any) => ({
           ...user,
           roles: user.roles ?? [],
         }));
-
         setUsers(normalizedUsers);
 
         const resRoles = await fetch('/api/roles');
@@ -104,7 +102,6 @@ export default function UsuariosPage() {
         body: JSON.stringify(editForm),
       });
       setEditingUser(null);
-      // Actualizar usuarios para reflejar cambios
       const resUsers = await fetch('/api/users');
       const usersData = await resUsers.json();
       setUsers(usersData.map((user: any) => ({ ...user, roles: user.roles ?? [] })));
@@ -112,6 +109,11 @@ export default function UsuariosPage() {
       console.error('Error guardando cambios:', error);
     }
   };
+
+  const roleOptions = roles.map(role => ({
+    value: role.nombre,
+    label: role.nombre,
+  }));
 
   return (
     <div
@@ -175,40 +177,44 @@ export default function UsuariosPage() {
             Editar: {editingUser.nombre} {editingUser.apellido}
           </h2>
 
-          <label
-            htmlFor="rolesSelect"
-            style={{ display: 'block', marginBottom: 8, fontWeight: '600', color: '#2c3e50' }}
-          >
-            Roles (mantén Ctrl o Cmd para seleccionar varios)
+          <label style={{ display: 'block', marginBottom: 8, fontWeight: '600', color: '#2c3e50' }}>
+            Roles
           </label>
-          <select
-            id="rolesSelect"
-            multiple
-            value={editForm.roles}
-            onChange={e => {
-              const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
-              setEditForm({ ...editForm, roles: selectedOptions });
+          <Select
+            isMulti
+            options={roleOptions}
+            value={roleOptions.filter(opt => editForm.roles.includes(opt.value))}
+            onChange={selected => {
+              const selectedRoles = selected.map(opt => opt.value);
+              setEditForm({ ...editForm, roles: selectedRoles });
             }}
-            style={{
-              width: '100%',
-              height: 110,
-              fontSize: 15,
-              padding: 8,
-              borderRadius: 5,
-              border: '1px solid #ccc',
-              color: '#34495e',
-              backgroundColor: '#fff',
-              boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.1)',
-              outlineColor: '#2980b9',
-              userSelect: 'none',
+            placeholder="Selecciona roles..."
+            styles={{
+              control: (base) => ({
+                ...base,
+                borderRadius: 6,
+                borderColor: '#ccc',
+                boxShadow: 'none',
+                fontSize: 15,
+              }),
+              multiValue: (base) => ({
+                ...base,
+                backgroundColor: '#2980b9',
+              }),
+              multiValueLabel: (base) => ({
+                ...base,
+                color: 'white',
+              }),
+              multiValueRemove: (base) => ({
+                ...base,
+                color: 'white',
+                ':hover': {
+                  backgroundColor: '#1f6391',
+                  color: 'white',
+                },
+              }),
             }}
-          >
-            {roles.map(role => (
-              <option key={role.ID_rol} value={role.nombre}>
-                {role.nombre}
-              </option>
-            ))}
-          </select>
+          />
 
           <label
             htmlFor="passwordInput"
