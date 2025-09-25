@@ -33,7 +33,7 @@ function Modal({ children, onClose }: { children: React.ReactNode; onClose: () =
         style={{
           position: 'fixed',
           inset: 0,
-          backgroundColor: 'rgba(0,0,0,0.4)',
+          backgroundColor: 'rgba(0,0,0,0.35)',
           zIndex: 999,
           cursor: 'pointer',
         }}
@@ -46,12 +46,12 @@ function Modal({ children, onClose }: { children: React.ReactNode; onClose: () =
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          backgroundColor: 'white',
-          borderRadius: 10,
+          backgroundColor: '#fffefc',
+          borderRadius: 12,
           padding: 30,
-          boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
           width: '90%',
-          maxWidth: 450,
+          maxWidth: 520,
           zIndex: 1000,
           cursor: 'default',
         }}
@@ -66,18 +66,14 @@ export default function UsuariosPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
   const [editingUser, setEditingUser] = useState<User | null>(null);
-  const [editForm, setEditForm] = useState<{ roles: string[]; password: string }>({ roles: [], password: '' });
+  const [editForm, setEditForm] = useState<Partial<User> & { password: string }>({ roles: [], password: '' });
 
   useEffect(() => {
     async function fetchData() {
       try {
         const resUsers = await fetch('/api/users');
         const usersData = await resUsers.json();
-        const normalizedUsers = usersData.map((user: any) => ({
-          ...user,
-          roles: user.roles ?? [],
-        }));
-        setUsers(normalizedUsers);
+        setUsers(usersData.map((user: any) => ({ ...user, roles: user.roles ?? [] })));
 
         const resRoles = await fetch('/api/roles');
         const rolesData = await resRoles.json();
@@ -91,7 +87,7 @@ export default function UsuariosPage() {
 
   const startEditing = (user: User) => {
     setEditingUser(user);
-    setEditForm({ roles: [...user.roles], password: '' });
+    setEditForm({ ...user, password: '' });
   };
 
   const saveChanges = async (id: number) => {
@@ -102,6 +98,7 @@ export default function UsuariosPage() {
         body: JSON.stringify(editForm),
       });
       setEditingUser(null);
+
       const resUsers = await fetch('/api/users');
       const usersData = await resUsers.json();
       setUsers(usersData.map((user: any) => ({ ...user, roles: user.roles ?? [] })));
@@ -118,53 +115,83 @@ export default function UsuariosPage() {
   return (
     <div
       style={{
-        maxWidth: 700,
-        margin: '40px auto',
+        maxWidth: 800,
+        margin: '50px auto',
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        color: '#222',
-        backgroundColor: '#f9f9fb',
-        borderRadius: 8,
-        padding: 20,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+        color: '#2c3e50',
+        backgroundColor: '#fdfaf5',
+        borderRadius: 16,
+        padding: 30,
+        boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
       }}
     >
-      <h1 style={{ textAlign: 'center', marginBottom: 30, color: '#2c3e50' }}>Gestión de Usuarios</h1>
+      <h1
+        style={{
+          textAlign: 'center',
+          marginBottom: 40,
+          color: '#27ae60',
+          fontSize: 28,
+          fontWeight: '700',
+        }}
+      >
+        Gestión de Usuarios
+      </h1>
 
-      {users.length === 0 && <p style={{ textAlign: 'center', color: '#999' }}>Cargando usuarios...</p>}
+      {users.length === 0 && (
+        <p style={{ textAlign: 'center', color: '#999', fontSize: 16 }}>Cargando usuarios...</p>
+      )}
 
       {users.map(user => (
         <div
           key={user.id}
           style={{
-            padding: '15px 20px',
+            padding: '18px 22px',
             marginBottom: 15,
-            borderRadius: 6,
+            borderRadius: 10,
             backgroundColor: '#fff',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            transition: 'transform 0.2s, box-shadow 0.2s',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.12)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
           }}
         >
           <div>
-            <b style={{ color: '#34495e' }}>
+            <b style={{ color: '#34495e', fontSize: 16 }}>
               {user.nombre} {user.apellido}
-            </b>{' '}
-            - <span style={{ color: '#7f8c8d' }}>{(user.roles ?? []).join(', ') || 'Sin roles'}</span>
+            </b>
+            <span style={{ color: '#7f8c8d', marginLeft: 6 }}>
+              {(user.roles ?? []).join(', ') || 'Sin roles'}
+            </span>
           </div>
           <button
             onClick={() => startEditing(user)}
             style={{
-              backgroundColor: '#2980b9',
+              backgroundColor: '#f1c40f',
               color: '#fff',
               border: 'none',
-              padding: '6px 14px',
-              borderRadius: 4,
+              padding: '8px 16px',
+              borderRadius: 6,
               cursor: 'pointer',
-              transition: 'background-color 0.3s',
+              fontWeight: 600,
+              transition: 'background-color 0.3s, transform 0.2s',
             }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#3498db')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#2980b9')}
+            onMouseEnter={e => {
+              e.currentTarget.style.backgroundColor = '#f39c12';
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.backgroundColor = '#f1c40f';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
           >
             Editar
           </button>
@@ -173,71 +200,115 @@ export default function UsuariosPage() {
 
       {editingUser && (
         <Modal onClose={() => setEditingUser(null)}>
-          <h2 style={{ marginTop: 0, marginBottom: 20, color: '#2c3e50' }}>
-            Editar: {editingUser.nombre} {editingUser.apellido}
+          <h2
+            style={{
+              marginTop: 0,
+              marginBottom: 20,
+              color: '#27ae60',
+              fontSize: 22,
+              fontWeight: 700,
+              textAlign: 'center',
+            }}
+          >
+            Editar Usuario
           </h2>
 
-          <label style={{ display: 'block', marginBottom: 8, fontWeight: '600', color: '#2c3e50' }}>
-            Roles
-          </label>
+          {/* Nombre */}
+          <label style={{ display: 'block', marginBottom: 6, fontWeight: 600 }}>Nombre</label>
+          <input
+            type="text"
+            value={editForm.nombre || ''}
+            onChange={e => setEditForm({ ...editForm, nombre: e.target.value })}
+            style={{
+              width: '100%',
+              padding: 10,
+              marginBottom: 12,
+              borderRadius: 6,
+              border: '1px solid #ccc',
+              fontSize: 15,
+            }}
+          />
+
+          {/* Apellido */}
+          <label style={{ display: 'block', marginBottom: 6, fontWeight: 600 }}>Apellido</label>
+          <input
+            type="text"
+            value={editForm.apellido || ''}
+            onChange={e => setEditForm({ ...editForm, apellido: e.target.value })}
+            style={{
+              width: '100%',
+              padding: 10,
+              marginBottom: 12,
+              borderRadius: 6,
+              border: '1px solid #ccc',
+              fontSize: 15,
+            }}
+          />
+
+          {/* Username */}
+          <label style={{ display: 'block', marginBottom: 6, fontWeight: 600 }}>Usuario</label>
+          <input
+            type="text"
+            value={editForm.username || ''}
+            onChange={e => setEditForm({ ...editForm, username: e.target.value })}
+            style={{
+              width: '100%',
+              padding: 10,
+              marginBottom: 12,
+              borderRadius: 6,
+              border: '1px solid #ccc',
+              fontSize: 15,
+            }}
+          />
+
+          {/* Roles */}
+          <label style={{ display: 'block', marginBottom: 6, fontWeight: 600 }}>Roles</label>
           <Select
             isMulti
             options={roleOptions}
-            value={roleOptions.filter(opt => editForm.roles.includes(opt.value))}
+            value={roleOptions.filter(opt => (editForm.roles || []).includes(opt.value))}
             onChange={selected => {
               const selectedRoles = selected.map(opt => opt.value);
               setEditForm({ ...editForm, roles: selectedRoles });
             }}
             placeholder="Selecciona roles..."
             styles={{
-              control: (base) => ({
-                ...base,
-                borderRadius: 6,
-                borderColor: '#ccc',
-                boxShadow: 'none',
-                fontSize: 15,
-              }),
-              multiValue: (base) => ({
-                ...base,
-                backgroundColor: '#2980b9',
-              }),
-              multiValueLabel: (base) => ({
+              control: base => ({ ...base, borderRadius: 6, fontSize: 15 }),
+              multiValue: base => ({ ...base, backgroundColor: '#27ae60' }),
+              multiValueLabel: base => ({ ...base, color: 'white' }),
+              multiValueRemove: base => ({
                 ...base,
                 color: 'white',
-              }),
-              multiValueRemove: (base) => ({
-                ...base,
-                color: 'white',
-                ':hover': {
-                  backgroundColor: '#1f6391',
-                  color: 'white',
-                },
+                ':hover': { backgroundColor: '#1e8449', color: 'white' },
               }),
             }}
           />
 
-          <label
-            htmlFor="passwordInput"
-            style={{ display: 'block', marginTop: 15, marginBottom: 8, fontWeight: '600', color: '#2c3e50' }}
-          >
-            Nueva Contraseña
-          </label>
+          {/* Contraseña */}
+          <label style={{ display: 'block', marginTop: 12, marginBottom: 6, fontWeight: 600 }}>Nueva Contraseña</label>
           <input
-            id="passwordInput"
             type="password"
-            placeholder="Nueva contraseña"
-            value={editForm.password}
+            value={editForm.password || ''}
             onChange={e => setEditForm({ ...editForm, password: e.target.value })}
             style={{
               width: '100%',
-              padding: 8,
-              fontSize: 15,
-              borderRadius: 5,
+              padding: 10,
+              borderRadius: 6,
               border: '1px solid #ccc',
-              outlineColor: '#2980b9',
-              color: '#34495e',
+              fontSize: 15,
             }}
           />
+
+          {/* Activo */}
+          <label style={{ display: 'block', marginTop: 12, marginBottom: 6, fontWeight: 600 }}>
+            <input
+              type="checkbox"
+              checked={editForm.activo || false}
+              onChange={e => setEditForm({ ...editForm, activo: e.target.checked })}
+              style={{ marginRight: 8 }}
+            />
+            Usuario Activo
+          </label>
 
           <div style={{ marginTop: 25, display: 'flex', gap: 12 }}>
             <button
@@ -248,9 +319,10 @@ export default function UsuariosPage() {
                 color: 'white',
                 padding: '12px 0',
                 border: 'none',
-                borderRadius: 6,
+                borderRadius: 8,
                 cursor: 'pointer',
-                fontWeight: '600',
+                fontWeight: 600,
+                fontSize: 16,
                 transition: 'background-color 0.3s',
               }}
               onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#2ecc71')}
@@ -262,17 +334,18 @@ export default function UsuariosPage() {
               onClick={() => setEditingUser(null)}
               style={{
                 flex: 1,
-                backgroundColor: '#c0392b',
-                color: 'white',
+                backgroundColor: '#f1c40f',
+                color: '#fff',
                 padding: '12px 0',
                 border: 'none',
-                borderRadius: 6,
+                borderRadius: 8,
                 cursor: 'pointer',
-                fontWeight: '600',
+                fontWeight: 600,
+                fontSize: 16,
                 transition: 'background-color 0.3s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#e74c3c')}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#c0392b')}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f39c12')}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#f1c40f')}
             >
               Cancelar
             </button>
