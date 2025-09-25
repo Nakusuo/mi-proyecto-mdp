@@ -22,7 +22,7 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        alert("Login exitoso"); // Aquí luego rediriges a otra página
+        alert("Login exitoso"); // Aquí se direcciona a otra página
       } else {
         setError(data.message);
       }
@@ -34,7 +34,7 @@ export default function LoginPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-200">
       <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md flex flex-col items-center">
-        
+
         {/* Logo */}
         <div className="mb-6">
           <Image src="/imagenes/logoPNP.png" alt="Logo PNP" width={120} height={120} />
@@ -47,6 +47,7 @@ export default function LoginPage() {
 
         {/* Formulario */}
         <form onSubmit={handleLogin} className="w-full flex flex-col gap-5">
+
           {/* Usuario */}
           <div className="relative">
             <span className="absolute left-4 top-3 text-gray-400 text-lg">👤</span>
@@ -56,7 +57,7 @@ export default function LoginPage() {
               placeholder="Usuario"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+              className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition text-gray-900 placeholder-gray-400"
             />
           </div>
 
@@ -69,10 +70,10 @@ export default function LoginPage() {
               placeholder="Contraseña"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+              className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition text-gray-900 placeholder-gray-400"
             />
             <span
-              className="absolute right-4 top-3 cursor-pointer text-gray-400 text-lg"
+              className="absolute right-4 top-3 cursor-pointer text-gray-400 text-lg select-none"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? "🙈" : "👁️"}

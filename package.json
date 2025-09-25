@@ -9,10 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "mysql2": "^3.15.0",
+    "lucide-react": "^0.544.0",
+    "mysql2": "^3.15.1",
     "next": "^15.5.4",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-day-picker": "^9.11.0",
+    "react-dom": "^19.1.1",
+    "react-select": "^5.10.2",
+    "recharts": "^3.2.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
