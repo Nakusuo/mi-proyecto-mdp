@@ -1,0 +1,157 @@
+/* ======= FORMULARIO BONITO ======= */
+
+/* ======= Inputs, Selects y Textareas ======= */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 0.9rem;
+  color: #374151;
+  outline: none;
+  transition: all 0.2s ease;
+  margin-bottom: 0.75rem;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
+  background: white;
+}
+
+/* ======= Botón de Adjuntar Archivo ======= */
+input[type="file"] {
+  display: none;
+}
+
+.file-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background-color: #059669;
+  color: white;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.file-label:hover {
+  background-color: #047857;
+}
+
+.file-label:active {
+  transform: scale(0.97);
+}
+
+/* ======= Botones de Acción ======= */
+button {
+  padding: 0.6rem 1.2rem;
+  background-color: #059669;
+  color: white;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: #047857;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* ======= Estilo del DatePicker ======= */
+.react-datepicker {
+  border: none !important;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 1rem;
+  font-family: inherit;
+  overflow: hidden;
+}
+
+/* ======= Header ======= */
+.react-datepicker__header {
+  background-color: transparent;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.75rem 0;
+}
+
+.react-datepicker__current-month {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #065f46;
+  letter-spacing: 0.5px;
+}
+
+.react-datepicker__navigation {
+  top: 12px;
+}
+.react-datepicker__navigation-icon::before {
+  border-color: #065f46;
+}
+
+.react-datepicker__month-container {
+  padding: 0.5rem;
+}
+
+.react-datepicker__day {
+  border-radius: 0.5rem;
+  transition: background 0.2s ease, color 0.2s ease;
+  color: #374151;
+}
+
+.react-datepicker__day:hover {
+  background-color: #ecfdf5;
+  color: #065f46;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #059669 !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.react-datepicker__day--today {
+  border: 1px solid #059669;
+  border-radius: 0.5rem;
+  background-color: #f0fdf4;
+  font-weight: 600;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 0.9rem;
+  color: #374151;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.react-datepicker__input-container input:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
+  background: white;
+}

@@ -61,22 +61,39 @@ export default function LoginPage() {
 
           <form onSubmit={handleLogin} className="w-full flex flex-col gap-5">
 
-            {/* Usuario */}
-            <div className="relative">
-              <span className="absolute left-4 top-3 text-gray-400 text-lg pointer-events-none">👤</span>
-              <input
-                type="text"
-                name="username"
-                placeholder="Usuario"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-700 focus:ring-1 focus:ring-green-700 transition text-gray-900 placeholder-gray-400"
+          {/* Usuario */}
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5">
+              <Image
+                src="/imagenes/usuario.png"
+                alt="Icono usuario"
+                width={20}
+                height={20}
+                className="object-contain"
               />
-            </div>
+            </span>
+            <input
+              type="text"
+              name="username"
+              placeholder="Usuario"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-700 focus:ring-1 focus:ring-green-700 transition text-gray-900 placeholder-gray-400"
+            />
+          </div>
+
 
             {/* Contraseña */}
             <div className="relative">
-              <span className="absolute left-4 top-3 text-gray-400 text-lg pointer-events-none">🔒</span>
+              <span className="absolute left-4 top-4.5 text-gray-400 text-lg pointer-events-none">
+                <Image
+                  src="/imagenes/contraseña.png"
+                  alt="Icono candado"
+                  width={20}
+                  height={20}
+                  className="object-contain"
+                />
+              </span>
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -86,10 +103,26 @@ export default function LoginPage() {
                 className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-700 focus:ring-1 focus:ring-green-700 transition text-gray-900 placeholder-gray-400"
               />
               <span
-                className="absolute right-4 top-3 cursor-pointer text-gray-400 text-lg select-none"
+                className="absolute right-4 top-4.5 cursor-pointer text-gray-400 text-lg select-none"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? "🙈" : "👁️"}
+                {showPassword ?                 
+                <Image
+                  src="/imagenes/ocultar.png"
+                  alt="Icono candado"
+                  width={20}
+                  height={20}
+                  className="object-contain"
+                />
+                :                 
+                <Image
+                  src="/imagenes/ver.png"
+                  alt="Icono candado"
+                  width={20}
+                  height={20}
+                  className="object-contain"
+                />
+                }
               </span>
             </div>
 

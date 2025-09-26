@@ -1,0 +1,95 @@
+/* ======= FORMULARIO ESTILIZADO ======= */
+form {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  font-family: inherit;
+}
+
+/* Etiquetas */
+form label {
+  color: #065f46;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+/* Inputs y selects */
+form input[type="text"],
+form textarea,
+form select {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background-color: #f9fafb;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+form input[type="text"]:focus,
+form textarea:focus,
+form select:focus {
+  outline: none;
+  border-color: #34d399;
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.25);
+  background-color: #fff;
+}
+
+/* Textarea */
+form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Botón principal */
+form button[type="submit"] {
+  background: #059669;
+  color: white;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+form button[type="submit"]:hover {
+  background: #047857;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(4, 120, 87, 0.3);
+}
+
+/* ======= Botón de Adjuntar Archivo ======= */
+form input[type="file"] {
+  display: block;
+  width: 100%;
+  font-size: 0.9rem;
+  color: #6b7280;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+form input[type="file"]::file-selector-button {
+  background: #ecfdf5;
+  color: #065f46;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+form input[type="file"]::file-selector-button:hover {
+  background: #d1fae5;
+  transform: scale(1.02);
+}
+
+/* Espaciado entre campos */
+form > div {
+  margin-bottom: 1.25rem;
+}

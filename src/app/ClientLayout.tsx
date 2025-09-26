@@ -1,6 +1,7 @@
 // src/app/ClientLayout.tsx
 "use client";
 
+import Image from "next/image"; 
 import Link from "next/link";
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
@@ -14,11 +15,21 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex h-screen font-sans bg-gray-100 text-gray-900">
+      {/* SIDEBAR (oculto en login) */}
       {user && !hideSidebar && (
         <aside className="w-64 bg-gradient-to-b from-green-800 to-green-900 text-white flex flex-col shadow-lg">
-          <div className="p-6 text-center font-bold text-xl border-b border-green-700 tracking-wide">
-            📂 MDP - Documentos
+          <div className="p-6 flex items-center justify-center gap-3 text-xl font-bold border-b border-green-700 tracking-wide">
+            <Image
+              src="/imagenes/file.png"
+              alt="Icono documentos"
+              width={28}
+              height={28}
+              className="object-contain"
+              priority
+            />
+            <span>MDP - Documentos</span>
           </div>
+
           <nav className="flex-1 p-4 space-y-2">
             <Link href="/dashboard" className="block p-3 rounded-lg hover:bg-green-700 transition">
               Dashboard
@@ -50,16 +61,35 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
         </aside>
       )}
 
+      {/* MAIN */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        <header className={`px-6 py-4 flex justify-between items-center shadow-md border-b ${
-          hideSidebar ? "bg-blue-500/90 text-white" : "bg-yellow-500/95 text-gray-900 border-yellow-400"
-        }`}>
+        {/* HEADER */}
+        <header
+          className={`px-6 py-4 flex justify-between items-center shadow-md border-b
+          ${
+            hideSidebar
+              ? "bg-green-700 text-white border-green-800" // ✅ verde para login
+              : "bg-yellow-400 text-green-900 border-yellow-500" // ✅ amarillo para el resto
+          }`}
+        >
           <h1 className="font-bold text-lg md:text-xl tracking-wide">
             {hideSidebar ? "Iniciar Sesión" : "Sistema de Gestión Documentaria"}
           </h1>
-          {!hideSidebar && <span className="text-sm md:text-base font-medium">👤 {user.nombre}</span>}
+          {!hideSidebar && (
+            <span className="text-sm md:text-base font-medium">
+              <Image
+                src="/imagenes/usuario.png"
+                alt="Icono usuario"
+                width={20}
+                height={20}
+                className="object-contain"
+              /> 
+               {user.nombre}
+            </span>
+          )}
         </header>
 
+        {/* CONTENIDO */}
         <section className="flex-1 p-6 overflow-y-auto space-y-6">
           {children}
         </section>
