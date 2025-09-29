@@ -23,13 +23,14 @@ const MOCK_DATA: ResumenDocumentos = {
 export default function Dashboard() {
   const [resumen, setResumen] = useState<ResumenDocumentos | null>(null);
 
-  useEffect(() => {
-    // Simula fetch: si falla, usar datos mock
-    fetch("/api/dashboard/resumen")
-      .then((res) => res.json())
-      .then((data: ResumenDocumentos) => setResumen(data))
-      .catch(() => setResumen(MOCK_DATA));
-  }, []);
+useEffect(() => {
+  fetch("/api/resumen")
+    .then((res) => res.json())
+    .then((data: ResumenDocumentos) => setResumen(data))
+    .catch((err) => {
+      console.error("Error cargando dashboard:", err);
+    });
+}, []);
 
   const COLORS = ["#22c55e", "#facc15", "#3b82f6", "#f87171", "#a855f7"];
 

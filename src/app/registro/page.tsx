@@ -25,7 +25,7 @@ export default function RegistroDocumento() {
     Promise.all([
       fetch("/api/tipos_documento").then((res) => res.json()),
       fetch("/api/areas").then((res) => res.json()),
-      fetch("/api/usuarios").then((res) => res.json()),
+      fetch("/api/users").then((res) => res.json()),
     ]).then(([tipos, areas, usuarios]) => {
       setTiposDocumento(Array.isArray(tipos) ? tipos : []);
       setAreas(Array.isArray(areas) ? areas : []);

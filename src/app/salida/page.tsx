@@ -23,7 +23,7 @@ export default function SalidaDocumento() {
   const [archivoCargo, setArchivoCargo] = useState<File | null>(null);
 
   useEffect(() => {
-    fetch("/api/documentos/pendientes_salida")
+    fetch("/api/pendientes_salida")
       .then((res) => res.json())
       .then((data: Documento[]) => setDocumentos(Array.isArray(data) ? data : []));
 
@@ -31,7 +31,7 @@ export default function SalidaDocumento() {
       .then((res) => res.json())
       .then((data: TipoDocumento[]) => setTiposDocumento(Array.isArray(data) ? data : []));
 
-    fetch("/api/usuarios")
+    fetch("/api/areas")
       .then((res) => res.json())
       .then((data: any[]) =>
         setUsuarios(

@@ -49,7 +49,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
             <Link href="/usuarios" className="block p-3 rounded-lg hover:bg-green-700 transition">
               Usuarios
             </Link>
-            <Link href="/mis-documentos" className="block p-3 rounded-lg hover:bg-green-700 transition">
+            <Link href="/misdocumentos" className="block p-3 rounded-lg hover:bg-green-700 transition">
               Mis Documentos
             </Link>
           </nav>
